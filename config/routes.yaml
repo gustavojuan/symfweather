@@ -4,10 +4,15 @@ controllers:
     namespace: App\Controller
   type: attribute
 
-weather_highlander_says:
-  path: /weather/highlander-says/{treshold<\d+>?50}
-  controller: App\Controller\WeatherController::highlanderSays
+weather:
+  resource: "routes/weather.yaml"
+  prefix: "/weather"
+  name_prefix: "weather_"
 
-weather_highlander_says_guess:
-  path: /weather/highlander-says/{guess}
-  controller: App\Controller\WeatherController::highlanderSaysGuess
+home:
+  path: "/"
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    permanent: false
+    route: "app_weather_highlandersaysguess"
+    guess: "hi from routes"

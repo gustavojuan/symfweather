@@ -4,7 +4,17 @@
 	<h1>Highlander says:</h1>
 	{# {{treshold}} #}
 	{{forecast}}
-	{# this is a comment #}
+	<nav>
+		<a href="{{ path('weather_highlander_says',{ treshold:50}) }}">Try again!</a>
+	</nav>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent()}}
+	<script>
+		const route ="{{ url('weather_highlander_says')|escape('js') }}";
+console.log(route);
+	</script>
 {% endblock %}
 
 
