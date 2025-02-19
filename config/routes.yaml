@@ -1,5 +1,13 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+
+weather_highlander_says:
+  path: /weather/highlander-says/{treshold<\d+>?50}
+  controller: App\Controller\WeatherController::highlanderSays
+
+weather_highlander_says_guess:
+  path: /weather/highlander-says/{guess}
+  controller: App\Controller\WeatherController::highlanderSaysGuess

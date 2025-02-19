@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StaticController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'mi_ruta_personalizada')]
     public function home(): Response
     {
         return $this->render('static/index.html.twig');
