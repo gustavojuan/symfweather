@@ -67,6 +67,10 @@ class WeatherController extends AbstractController
 
         if ($treshold) {
             $session->set('treshold', $treshold);
+            $this->addFlash(
+                "info",
+                "You have set the treshold to $treshold"
+            );
         } else {
             $treshold = $session->get('treshold', 50);
         }
