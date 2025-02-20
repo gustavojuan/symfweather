@@ -7,9 +7,11 @@
 			{{message}}</div>
 	{% endfor %}
 
-	{% for forecast in forecasts %}
-		<p>{{ forecast }}</p>
-	{% endfor %}
+	{# {% for forecast in forecasts %}
+					<p>{{ forecast | upper }}</p>
+				{% endfor %} #}
+
+	<p>{{forecasts | join(',')}}</p>
 
 	{% if treshold %}
 		<p>Treshold:

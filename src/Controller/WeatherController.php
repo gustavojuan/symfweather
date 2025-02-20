@@ -26,7 +26,7 @@ class WeatherController extends AbstractController
 
     #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
-        #[MapRequestPayload] ?HighlanderApiDTO $dto = null,
+        #[MapQueryString] ?HighlanderApiDTO $dto = null,
     ): JsonResponse {
 
         if (!$dto) {
@@ -44,23 +44,17 @@ class WeatherController extends AbstractController
         $json = [
             'forecasts' => $forecasts,
             'treshold' => $dto->treshold,
-            // 'self' => $this->generateUrl(
-            //     'app_weather_highlandersaysapi',
-            //     [
-            //         'treshold' => $dto->treshold,
-            //         'trials' => $dto->trials
-            //     ],
-            //     UrlGeneratorInterface::ABSOLUTE_URL
-            // )
         ];
-        return new JsonResponse($json);
+        //return new JsonResponse($json);
+        return $this->json($json, Response::HTTP_OK);
     }
 
     // #[Route('/highlander-says/{treshold<\d+>}')]
     public function highlanderSays(
         Request $request,
         RequestStack $requestStack,
-        ?int $treshold = null
+        ?int $treshold = null,
+        #[MapQueryParameter] ?string $_format = 'html'
     ): Response {
 
         $session = $requestStack->getSession();
@@ -76,20 +70,19 @@ class WeatherController extends AbstractController
         }
 
 
-
-
         $trials = $request->get('trials', 1);
 
         $forecasts = [];
 
         for ($i = 0; $i < $trials; $i++) {
             $draw = random_int(0, 100);
-            $forecast = $draw < $treshold ? "rain" : "sunny";
+            $forecast = $draw < $treshold ? "It's goint to rain" : "It's goint to be sunny";
             $forecasts[] = $forecast;
         }
 
-
-        return $this->render('weather/highlander_says.html.twig', compact('forecasts', 'treshold'));
+        $html = $this->renderView("weather/highlander_says.{$_format}.twig", compact('forecasts', 'treshold'));
+        $response = new Response($html);
+        return $response;
     }
 
     // #[Route('/highlander-says/{guess}')]
