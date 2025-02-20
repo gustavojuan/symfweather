@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
 	<h1>Highlander says:</h1>
-	{# {{treshold}} #}
-	{{forecast}}
+	{% for forecast in forecasts %}
+		<p>{{ forecast }}</p>
+	{% endfor %}
+
 	<nav>
-		<a href="{{ path('weather_highlander_says',{ treshold:50}) }}">Try again!</a>
+		<a href="{{ path('weather_highlander_says', { treshold: 50 }) }}">Try again!</a>
 	</nav>
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent()}}
+	{{ parent() }}
 	<script>
-		const route ="{{ url('weather_highlander_says')|escape('js') }}";
-console.log(route);
+		const route = "{{ url('weather_highlander_says')|escape('js') }}"
+console.log(route)
 	</script>
 {% endblock %}
-
 
 {% block title %}
 	Highlander says
