@@ -20,11 +20,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/weather')]
+// #[Route('/weather')]
 class WeatherController extends AbstractController
 {
 
-    #[Route('/highlander-says/api')]
+    // #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
         #[MapQueryString] ?HighlanderApiDTO $dto = null,
     ): JsonResponse {

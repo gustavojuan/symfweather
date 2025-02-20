@@ -14,5 +14,5 @@ home:
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
   defaults:
     permanent: false
-    route: "app_weather_highlandersaysguess"
-    guess: "hi from routes"
+    route: "weather_highlander_says_guess"
+    guess: "snow"

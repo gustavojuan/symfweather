@@ -15,6 +15,18 @@
 		{% endblock %}
 	</head>
 	<body>
+		<nav class="menu">
+			<ul>
+				<li>
+					<a href="{{path('home')}}">Home</a>
+				</li>
+				<li>
+					<a href="{{path('weather_highlander_says')}}">Highlander</a>
+				</li>
+			</ul>
+		</nav>
+
+
 		{% block body %}{% endblock %}
 	</body>
 </html>

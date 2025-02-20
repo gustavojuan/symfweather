@@ -13,7 +13,7 @@
 
 	<p>{{forecasts | join(',')}}</p>
 
-	{% if treshold %}
+	{% if treshold is defined %}
 		<p>Treshold:
 			{{treshold}}</p>
 	{% endif %}
