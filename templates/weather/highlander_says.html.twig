@@ -5,8 +5,13 @@
 		<p>{{ forecast }}</p>
 	{% endfor %}
 
+	{% if treshold %}
+		<p>Treshold:
+			{{treshold}}</p>
+	{% endif %}
+
 	<nav>
-		<a href="{{ path('weather_highlander_says', { treshold: 50 }) }}">Try again!</a>
+		<a href="{{ path('weather_highlander_says') }}">Try again!</a>
 	</nav>
 {% endblock %}
 

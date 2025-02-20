@@ -9,9 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,7 +26,7 @@ class WeatherController extends AbstractController
 
     #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
-        #[MapQueryString] ?HighlanderApiDTO $dto = null,
+        #[MapRequestPayload] ?HighlanderApiDTO $dto = null,
     ): JsonResponse {
 
         if (!$dto) {
@@ -54,12 +56,28 @@ class WeatherController extends AbstractController
         return new JsonResponse($json);
     }
 
-    // #[Route('/highlander-says/{treshold<\d+>?50}')]
-    public function highlanderSays(int $treshold, Request $request): Response
-    {
+    // #[Route('/highlander-says/{treshold<\d+>}')]
+    public function highlanderSays(
+        Request $request,
+        RequestStack $requestStack,
+        ?int $treshold = null
+    ): Response {
+
+        $session = $requestStack->getSession();
+
+        if ($treshold) {
+            $session->set('treshold', $treshold);
+        } else {
+            $treshold = $session->get('treshold', 50);
+        }
+
+
+
 
         $trials = $request->get('trials', 1);
+
         $forecasts = [];
+
         for ($i = 0; $i < $trials; $i++) {
             $draw = random_int(0, 100);
             $forecast = $draw < $treshold ? "rain" : "sunny";
@@ -67,7 +85,7 @@ class WeatherController extends AbstractController
         }
 
 
-        return $this->render('weather/highlander_says.html.twig', compact('forecasts'));
+        return $this->render('weather/highlander_says.html.twig', compact('forecasts', 'treshold'));
     }
 
     // #[Route('/highlander-says/{guess}')]

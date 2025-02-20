@@ -4,7 +4,7 @@
 #   host: "api.localhost"
 
 highlander_says:
-  path: /highlander-says/{treshold<\d+>?50}
+  path: /highlander-says/{treshold<\d+>?}
   controller: App\Controller\WeatherController::highlanderSays
 
 highlander_says_guess:
