@@ -1,0 +1,9 @@
+navigation:
+  brand: "Symfony: Getting Started"
+  home: "Home"
+  highlander: "Higlander"
+  privacy_policy: "Privacy Policy"
+
+weather:
+  highlander_says:
+    success: "You have set the treshold to  %treshold%!"

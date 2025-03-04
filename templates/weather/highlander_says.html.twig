@@ -1,37 +1,31 @@
-{% extends 'base.html.twig' %}
-{% block body %}
+{% extends 'layout_fluid.html.twig' %}
+
+{% block content %}
 	<h1>Highlander says:</h1>
+
 
 	{% for message in app.flashes('info') %}
 		<div class="flash-info">Info:
 			{{message}}</div>
+
+
+		{# <p>{{ forecasts | upper }}</p> #}
 	{% endfor %}
-
-	{# {% for forecast in forecasts %}
-													<p>{{ forecast | upper }}</p>
-												{% endfor %} #}
-
 	<p>{{forecasts | join(',')}}</p>
-
 	{% if treshold is defined %}
 		<p>Treshold:
 			{{treshold}}</p>
 	{% endif %}
-
 	<nav>
 		<a href="{{ path('weather_highlander_says') }}">Try again!</a>
 	</nav>
 {% endblock %}
-
 {% block javascripts %}
-	{{ parent() }}
-	<script>
-		const route = "{{ url('weather_highlander_says')|escape('js') }}"
-// console.log(route);
-console.log("{{ api_key | escape('js') }}")
+	{{ parent() }}<script>
+		const route = "{{ url('weather_highlander_says')|escape('js') }}";
+
+console.log("{{ api_key | escape('js') }}");
 	</script>
 {% endblock %}
-
-{% block title %}
-	Highlander says
+{% block title %}Highlander says
 {% endblock %}

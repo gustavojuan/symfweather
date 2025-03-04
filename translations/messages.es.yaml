@@ -1,0 +1,9 @@
+navigation:
+  brand: "Symfony: Introducción"
+  home: "Inicio"
+  highlander: "Highlander"
+  privacy_policy: "Política de Privacidad"
+
+weather:
+  highlander_says:
+    success: "¡Has establecido el umbral a %treshold%!"

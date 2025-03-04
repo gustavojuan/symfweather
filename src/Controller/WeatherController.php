@@ -6,19 +6,15 @@ namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+use Symfony\Contracts\Translation\TranslatorInterface as TranslationTranslatorInterface;
 
 // #[Route('/weather')]
 class WeatherController extends AbstractController
@@ -53,6 +49,7 @@ class WeatherController extends AbstractController
     public function highlanderSays(
         Request $request,
         RequestStack $requestStack,
+        TranslationTranslatorInterface $translator,
         ?int $treshold = null,
         #[MapQueryParameter] ?string $_format = 'html'
     ): Response {
@@ -63,7 +60,9 @@ class WeatherController extends AbstractController
             $session->set('treshold', $treshold);
             $this->addFlash(
                 "info",
-                "You have set the treshold to $treshold"
+                $translator->trans('weather.highlander_says.success', [
+                    '%treshold%' => $treshold
+                ])
             );
         } else {
             $treshold = $session->get('treshold', 50);
