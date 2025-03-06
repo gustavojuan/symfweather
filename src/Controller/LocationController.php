@@ -47,16 +47,12 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/remove/{id<\d+>?}')]
-
-    public function remove(
-        LocationRepository $locationRepository,
-        int $id = null,
-    ): JsonResponse
+    public function remove(LocationRepository $locationRepository, int $id, ): JsonResponse
     {
 
         $location = $locationRepository->find($id);
 
-        if(!$location){
+        if (!$location) {
             return new JsonResponse('Not Found');
         }
 
@@ -64,5 +60,48 @@ final class LocationController extends AbstractController
 
         return new JsonResponse(null);
 
+    }
+
+    #[Route(path: '/show/{name}')]
+    public function show(
+        LocationRepository $locationRepository,
+        string $name,
+    ): JsonResponse {
+
+
+        //magic method
+        //$location = $locationRepository->findByNameAndCountryCode($name,$country);
+        $location = $locationRepository->findOneByName($name);
+
+        $json = [
+            'id' => $location->getId(),
+            'name' => $location->getName(),
+            'country' => $location->getCountryCode(),
+            'lat' => $location->getLatitude(),
+            'long' => $location->getLongitude(),
+        ];
+
+
+        return new JsonResponse($json);
+
+    }
+
+    #[Route('/')]
+    public function index(LocationRepository $locationRepository): JsonResponse
+    {
+
+        $locations = $locationRepository->findAll();
+        $json = [];
+        foreach ($locations as $location) {
+            $json[] = [
+                'id' => $location->getId(),
+                'name' => $location->getName(),
+                'country' => $location->getCountryCode(),
+                'lat' => $location->getLatitude(),
+                'long' => $location->getLongitude(),
+            ];
+        }
+
+        return new JsonResponse($json);
     }
 }
