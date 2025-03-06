@@ -53,7 +53,7 @@ final class LocationController extends AbstractController
         $location = $locationRepository->find($id);
 
         if (!$location) {
-            return new JsonResponse('Not Found');
+            throw $this->createNotFoundException();
         }
 
         $locationRepository->remove($location, true);
@@ -72,6 +72,9 @@ final class LocationController extends AbstractController
         //magic method
         //$location = $locationRepository->findByNameAndCountryCode($name,$country);
         $location = $locationRepository->findOneByName($name);
+        if (!$location) {
+            throw $this->createNotFoundException();
+        }
 
         $json = [
             'id' => $location->getId(),
