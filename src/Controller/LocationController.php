@@ -45,4 +45,24 @@ final class LocationController extends AbstractController
             'name' => $location->getName()
         ]);
     }
+
+    #[Route('/remove/{id<\d+>?}')]
+
+    public function remove(
+        LocationRepository $locationRepository,
+        int $id = null,
+    ): JsonResponse
+    {
+
+        $location = $locationRepository->find($id);
+
+        if(!$location){
+            return new JsonResponse('Not Found');
+        }
+
+        $locationRepository->remove($location, true);
+
+        return new JsonResponse(null);
+
+    }
 }

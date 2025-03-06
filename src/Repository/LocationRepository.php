@@ -26,6 +26,16 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function remove(Location $entity, bool $flush = false)
+    {
+        $em = $this->getEntityManager();
+        $em->remove($entity);
+
+        if ($flush) {
+            $em->flush();
+        }
+    }
+
     //    /**
     //     * @return Location[] Returns an array of Location objects
     //     */
