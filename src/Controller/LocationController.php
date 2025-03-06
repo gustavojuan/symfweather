@@ -68,29 +68,46 @@ final class LocationController extends AbstractController
         #[MapEntity(mapping: ['location_name' => 'name'])]
         Location $location,
     ): JsonResponse {
-        return new JsonResponse([
+
+        $json = [
             'id' => $location->getId(),
             'name' => $location->getName(),
             'country' => $location->getCountryCode(),
             'lat' => $location->getLatitude(),
             'long' => $location->getLongitude(),
-        ]);
+        ];
+
+        foreach ($location->getForecasts() as $forecast) {
+            $json['forecasts'][$forecast->getDate()->format('Y-m-d')] = [
+                'celsius' => $forecast->getCelsius()
+            ];
+        }
+        return new JsonResponse($json);
     }
 
     #[Route('/')]
     public function index(LocationRepository $locationRepository): JsonResponse
     {
-
-        $locations = $locationRepository->findAll();
+        $locations = $locationRepository->findAllWithForecats();
         $json = [];
+
         foreach ($locations as $location) {
-            $json[] = [
+
+            $locationJson = [
                 'id' => $location->getId(),
                 'name' => $location->getName(),
                 'country' => $location->getCountryCode(),
                 'lat' => $location->getLatitude(),
                 'long' => $location->getLongitude(),
             ];
+
+            foreach ($location->getForecasts() as $forecast) {
+                $locationJson['forecasts'][$forecast->getDate()->format('Y-m-d')] = [
+                    'celsius' => $forecast->getCelsius()
+                ];
+            }
+
+            $json[] = $locationJson;
         }
 
         return new JsonResponse($json);
