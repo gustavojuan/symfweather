@@ -2,7 +2,9 @@ twig:
   file_name_pattern: "*.twig"
   globals:
     api_key: "%env(API_KEY)%"
+  form_themes: ['bootstrap_5_horizontal_layout.html.twig']
 
 when@test:
   twig:
     strict_variables: true
+
