@@ -29,7 +29,7 @@ class LocationFormTestType extends AbstractType
                 'html5' => true,
                 'scale' => 7,
                 'attr' => [
-                    'step' => 0.1,
+                    'step' => 0.00001,
                     'min' => -90,
                     'max' => 90,
                 ]
@@ -38,7 +38,7 @@ class LocationFormTestType extends AbstractType
                 'html5' => true,
                 'scale' => 7,
                 'attr' => [
-                    'step' => 0.1,
+                    'step' => 0.00001,
                     'min' => -90,
                     'max' => 90,
                 ]
