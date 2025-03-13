@@ -1,13 +1,22 @@
-{% extends "base.html.twig" %}
+{% extends "layout_boxed.html.twig" %}
 
-{% block body %}
-	<p>lorem impsum
-	</p>
-	<p>lorem impsum
-	</p>
-	<p>lorem impsum
-	</p>
-	<p>lorem impsum
-	</p>
+{% block content %}
+
+    <p>
+        {{ highlander.say(10,5) | first }}
+    </p>
+    {% for forecast in highlander.say(50,56) %}
+        <p>{{ forecast }}</p>
+    {% endfor %}
+
+
+    <p>lorem impsum
+    </p>
+    <p>lorem impsum
+    </p>
+    <p>lorem impsum
+    </p>
+    <p>lorem impsum
+    </p>
 
 {% endblock %}

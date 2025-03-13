@@ -3,36 +3,47 @@ App\Entity\Location:
     name:
       - NotBlank:
           message: "Location name must be specified"
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
       - Length:
           min: 2
           max: 255
           minMessage: '{{ label }} name must be at least {{ limit }} characters long'
           maxMessage: '{{ label }} name cannot be longer than {{ limit }} characters'
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
     countryCode:
       - NotBlank:
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
     latitude:
       - NotBlank:
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
       - Range:
           min: -90
           max: 90
           notInRangeMessage: "The {{ label }}  must be between {{ min }} and {{ max }} degrees"
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
       - NotEqualTo:
           value: 0
-          groups: ['edit']
+          groups: [ 'edit' ]
 
     longitude:
       - NotBlank:
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
       - Range:
           min: -180
           max: 180
           notInRangeMessage: "The {{ label }} must be between {{ min }} and {{ max }} degrees"
-          groups: ['new','edit']
+          groups: [ 'new','edit' ]
       - NotEqualTo:
           value: 0
-          groups: ['edit']
+          groups: [ 'edit' ]
+
+App\Model\HighlanderApiDTO:
+  properties:
+    treshold:
+      - Range:
+          min: 0
+          max: 100
+          notInRangeMessage: "The {{ label }}  must be between {{ min }} and {{ max }} degrees"
+    trials:
+      - GreaterThanOrEqual:
+          value: 1

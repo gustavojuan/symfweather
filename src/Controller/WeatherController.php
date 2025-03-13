@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
+use App\Service\Highlander;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,8 +23,10 @@ class WeatherController extends AbstractController
 
     // #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
+        Highlander                          $highlander,
         #[MapQueryString] ?HighlanderApiDTO $dto = null,
-    ): JsonResponse {
+    ): JsonResponse
+    {
 
         if (!$dto) {
             $dto = new HighlanderApiDTO();
@@ -31,28 +34,26 @@ class WeatherController extends AbstractController
             $dto->trials = 1;
         }
 
-        $forecasts = [];
-        for ($i = 0; $i < $dto->trials; $i++) {
-            $draw = random_int(0, 100);
-            $forecast = $draw < $dto->treshold ? "rain" : "sunny";
-            $forecasts[] = $forecast;
-        }
+        $forecasts = $highlander->say($dto->treshold, $dto->trials);
+
+
         $json = [
             'forecasts' => $forecasts,
-            'treshold' => $dto->treshold,
+            'threshold' => $dto->treshold,
         ];
-        //return new JsonResponse($json);
         return $this->json($json, Response::HTTP_OK);
     }
 
-    // #[Route('/highlander-says/{treshold<\d+>}')]
+     #[Route('/highlander-says/{treshold<\d+>}')]
     public function highlanderSays(
-        Request $request,
-        RequestStack $requestStack,
+        Highlander                     $highlander,
+        Request                        $request,
+        RequestStack                   $requestStack,
         TranslationTranslatorInterface $translator,
-        ?int $treshold = null,
-        #[MapQueryParameter] ?string $_format = 'html'
-    ): Response {
+        ?int                           $treshold = null,
+        #[MapQueryParameter] ?string   $_format = 'html'
+    ): Response
+    {
 
         $session = $requestStack->getSession();
 
@@ -69,19 +70,12 @@ class WeatherController extends AbstractController
         }
 
 
-        $trials = $request->get('trials', 1);
+        $trials = (int) $request->get('trials', 1);
 
-        $forecasts = [];
-
-        for ($i = 0; $i < $trials; $i++) {
-            $draw = random_int(0, 100);
-            $forecast = $draw < $treshold ? "It's goint to rain" : "It's goint to be sunny";
-            $forecasts[] = $forecast;
-        }
+        $forecasts = $highlander->say($treshold, $trials);
 
         $html = $this->renderView("weather/highlander_says.{$_format}.twig", compact('forecasts', 'treshold'));
-        $response = new Response($html);
-        return $response;
+        return new Response($html);
     }
 
     // #[Route('/highlander-says/{guess}')]

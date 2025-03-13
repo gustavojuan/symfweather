@@ -1,7 +1,6 @@
-# highlander_says_api:
-#   path: /highlander-says/{treshold<\d+>?50}
-#   controller: App\Controller\WeatherController::highlanderSaysApi
-#   host: "api.localhost"
+highlander_says_api:
+  path: /highlander-says-api/{treshold<\d+>?50}
+  controller: App\Controller\WeatherController::highlanderSaysApi
 
 highlander_says:
   path: /highlander-says/{treshold<\d+>?}

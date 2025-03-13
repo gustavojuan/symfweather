@@ -11,7 +11,13 @@
 
 		{# <p>{{ forecasts | upper }}</p> #}
 	{% endfor %}
-	<p>{{forecasts | join(',')}}</p>
+
+	{% for forecast in forecasts %}
+		<p>{{ forecast }}</p>
+	{% endfor %}
+
+
+
 	{% if treshold is defined %}
 		<p>Treshold:
 			{{treshold}}</p>
